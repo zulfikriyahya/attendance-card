@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension>
+
+  <_name>Generator Teks dan Gambar</_name>
+  <id>generator.aurium.colivre.coop.br</id>
+
+  <dependency type="executable" location="extensions">generator.py</dependency>
+
+  <param name="tab" type="notebook">
+    <page name="tabA" _gui-text="Konfigurasi">
+
+  <param name="vartype" type="enum" _gui-text="Kumpulkan nilai berdasarkan:">
+    <_item value="name">Nama Kolom</_item>
+    <_item value="column">Posisi Kolom</_item>
+  </param>
+
+  <param name="sep" type="description">•••••••••••••••••••••••••••••••••••••••••••••••••••••••••</param>
+
+  <_param name="info1" type="description">Nilai teks tambahan yang akan diganti:</_param>
+  <param name="extravars" type="string" gui-text=" "></param>
+
+  <param name="sep" type="description">•••••••••••••••••••••••••••••••••••••••••••••••••••••••••</param>
+
+  <param name="datafile" type="string" _gui-text="Berkas .csv:"></param>
+  <_param name="extraVarInfo" type="description">Berkas data harus berupa berkas CSV UTF-8 dengan kolom yang dipisahkan koma.</_param>
+
+  <param name="sep" type="description">•••••••••••••••••••••••••••••••••••••••••••••••••••••••••</param>
+
+  <param name="specialchars" type="boolean" _gui-text="Tangani karakter XML khusus">true</param>
+  <param name="format" type="enum" _gui-text="Format ekspor:">
+    <item value="PDF">PDF</item>
+    <item value="SVG">SVG</item>
+    <item value="PS">PS</item>
+    <item value="EPS">EPS</item>
+    <item value="PNG">PNG</item>
+    <item value="JPG">JPG</item>
+  </param>
+  <param name="dpi" type="string" _gui-text="DPI (untuk PNG dan JPG):">90</param>
+  <param name="output" type="string" _gui-text="Pola keluaran:">$HOME/generator-output/%VAR_1%.pdf</param>
+  <param name="preview" type="boolean" _gui-text="Pratinjau (buat dan tampilkan hanya entri pertama)"></param>
+
+    </page>
+    <page name="tabB" _gui-text="Bantuan">
+
+  <_param name="helpTxt" type="description">
+Bagaimana variabel diganti?
+
+Pengganti (replacer) akan membaca setiap kolom data, baris demi baris, dan mencoba mengganti `%VAR_#%` di dalam SVG dengan nilai dari kolom tersebut.
+Jika kamu memilih "column position", maka `#` adalah nomor kolom.
+Jika kamu memilih "column name", maka `#` adalah nama kolom yang didefinisikan pada baris pertama.
+Jika kamu mengaktifkan opsi handle special characters, karakter seperti `&` akan diganti dengan entitas seperti `&amp;` sesuai standar SVG. Dalam kebanyakan kasus, sebaiknya kamu mengaktifkan opsi ini.
+
+Apakah saya bisa mengganti pola teks lain, seperti nilai elemen?
+
+Ya. Pada kolom kedua, tambahkan semua teks tambahan yang ingin diganti dalam satu baris yang dipisahkan dengan tanda `|`, lalu tunjukkan ke kolom pengganti dengan format `=>` (nama atau nomor, tergantung pilihan di atas).
+Jangan gunakan spasi kecuali memang bagian dari blok teks!
+
+Sebagai contoh, kita bisa menjadikan warna merah dan hijau sebagai variabel yang diganti dengan warna lain dari basis data pada kolom "secure color" dan "sector color":
+#ff0000=>secure color|#00ff00=>sector color
+Semua elemen merah murni dan hijau murni akan memiliki warna baru untuk setiap baris data.
+
+Jika kamu tidak yakin variabel apa yang bisa digunakan, jalankan dalam "mode preview" dan teks yang dapat diganti akan ditampilkan kepadamu.
+  </_param>
+
+    </page>
+  </param>
+
+  <effect needs-live-preview="false" needs-document="true">
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu _name="Export"/>
+    </effects-menu>
+  </effect>
+
+  <script>
+      <command reldir="extensions" interpreter="python">generator.py</command>
+  </script>
+
+</inkscape-extension>
